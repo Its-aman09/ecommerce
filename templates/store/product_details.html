@@ -1,0 +1,108 @@
+{% extends 'store/base.html' %}
+
+{% block title %}{{ product.name }} - E-Commerce Store{% endblock %}
+
+{% block content %}
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'product_list' %}">Products</a></li>
+            <li class="breadcrumb-item active">{{ product.name }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-6">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.name }}">
+            {% else %}
+                <div class="bg-secondary d-flex align-items-center justify-content-center rounded" style="height: 400px;">
+                    <i class="fas fa-image fa-5x text-white"></i>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-6">
+            <h1 class="mb-3">{{ product.name }}</h1>
+            <h3 class="text-primary mb-4">${{ product.price }}</h3>
+            
+            <div class="mb-4">
+                <h5>Category:</h5>
+                <span class="badge bg-secondary">{{ product.category.name }}</span>
+            </div>
+
+            {% if product.stock > 0 %}
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i> In Stock: {{ product.stock }} available
+                </div>
+            {% else %}
+                <div class="alert alert-danger">
+                    <i class="fas fa-times-circle"></i> Out of Stock
+                </div>
+            {% endif %}
+
+            <div class="mb-4">
+                <h5>Description:</h5>
+                <p>{{ product.description }}</p>
+            </div>
+
+            {% if user.is_staff %}
+            <div class="alert alert-warning mb-3">
+                <strong>Admin Actions:</strong>
+                <div class="btn-group w-100 mt-2" role="group">
+                    <a href="{% url 'edit_product' product.slug %}" class="btn btn-warning">
+                        <i class="fas fa-edit"></i> Edit Product
+                    </a>
+                    <a href="{% url 'delete_product' product.slug %}" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Delete Product
+                    </a>
+                    <a href="{% url 'send_otp' %}" class="btn btn-success btn-lg mt-3">
+                        <i class="fas fa-bolt"></i> Buy Now (Pay with OTP)
+                    </a>
+
+                </div>
+            </div>
+            {% endif %}
+
+            {% if product.stock > 0 %}
+            <div class="d-grid gap-2">
+                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-cart-plus"></i> Add to Cart
+                </a>
+            </div>
+
+            {% else %}
+            <button class="btn btn-secondary btn-lg w-100" disabled>Out of Stock</button>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Related Products -->
+    {% if related_products %}
+    <div class="mt-5">
+        <h3 class="mb-4">Related Products</h3>
+        <div class="row">
+            {% for related in related_products %}
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    {% if related.image %}
+                        <img src="{{ related.image.url }}" class="card-img-top" alt="{{ related.name }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <i class="fas fa-image fa-3x text-white"></i>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ related.name }}</h5>
+                        <p class="text-primary">${{ related.price }}</p>
+                        <a href="{% url 'product_detail' related.slug %}" class="btn btn-sm btn-outline-primary">View</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Order Success{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card text-center">
+                <div class="card-body py-5">
+                    <i class="fas fa-check-circle fa-5x text-success mb-4"></i>
+                    <h1 class="mb-3">Order Placed Successfully!</h1>
+                    <p class="lead">Thank you for your order</p>
+                    <p class="text-muted">Order #{{ order.id }}</p>
+                    <div class="alert alert-info mt-4">
+                        <p>Order Total: ${{ order.total_amount }}</p>
+                    </div>
+                    <a href="{% url 'profile' %}" class="btn btn-primary me-2">View My Orders</a>
+                    <a href="{% url 'home' %}" class="btn btn-outline-primary">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
