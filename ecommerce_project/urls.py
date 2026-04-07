@@ -23,7 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('store.urls')),
     path('accounts/', include('accounts.urls')),
-    path("payment/", include("twilio_pay.urls")),
 ]
 
 if settings.DEBUG:
