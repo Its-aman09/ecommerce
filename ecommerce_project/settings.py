@@ -39,16 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'store',
-    # 'accounts',
-    # 'twilio_pay',
-    # # 'cart',
-    # 'orders',
-     'accounts',
+    'accounts',
     'payments',
     'paymentapp',
     'store',
-    'twilio_pay',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -84,9 +78,11 @@ WSGI_APPLICATION = 'ecommerce_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-
 DATABASES = {
-    'default': dj_database_url.config(default='postgresql://ecomm_x2bt_user:sw118TJBp10fKh4N6MjYfcliWZT5yZr7@dpg-d66nr7cr85hc739qmav0-a.oregon-postgres.render.com/ecomm_x2bt')
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 
@@ -141,11 +137,3 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
-
-# =========================
-# TWILIO SETTINGS
-# =========================
-
-TWILIO_ACCOUNT_SID = "your_twilio_sid_here"
-TWILIO_AUTH_TOKEN = "your_twilio_auth_token_here"
-TWILIO_PHONE_NUMBER = "+1XXXXXXXXXX"
