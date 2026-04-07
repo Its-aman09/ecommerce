@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.db.models import Q
 from .models import Product, Category, Cart, CartItem, Order, OrderItem
 from django.utils.text import slugify
-from .forms import ProductForm
+from .forms import ProductForm,OrderForm
 
 def get_or_create_cart(request):
     """Get or create cart for user or session"""
@@ -154,11 +154,13 @@ def checkout(request):
         
         messages.success(request, f'Order #{order.id} placed successfully!')
         return redirect('order_success', order_id=order.id)
-    
-    context = {
-        'cart': cart
-    }
-    return render(request, 'store/checkout.html', context)
+    else:
+        form=OrderForm()
+        context = {
+            'cart': cart,
+            'form': form
+        }
+        return render(request, 'store/checkout.html', context)
 
 @login_required
 def order_success(request, order_id):
